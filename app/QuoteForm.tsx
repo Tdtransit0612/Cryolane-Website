@@ -12,11 +12,40 @@ const EQUIPMENT_OPTIONS = [
   'Not sure — recommend',
 ]
 
-type FormState = 'idle' | 'submitting' | 'sent'
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// idle → submitting → sent (server has the lead) | fallback (mailto draft —
+// the visitor still has to hit Send, so the copy must NOT claim receipt)
+type FormState = 'idle' | 'submitting' | 'sent' | 'fallback'
+
+function draftBody(data: Record<string, string>): string {
+  return [
+    `Name: ${data.name}`,
+    `Company: ${data.company || '—'}`,
+    `Email: ${data.email}`,
+    `Phone: ${data.phone || '—'}`,
+    '',
+    `Origin: ${data.origin}`,
+    `Destination: ${data.destination}`,
+    `Pickup date: ${data.pickup_date || '—'}`,
+    `Equipment: ${data.equipment || '—'}`,
+    `Temp set point: ${data.temp || '—'}`,
+    `Commodity: ${data.commodity || '—'}`,
+    `Weight: ${data.weight || '—'}`,
+    '',
+    `Notes: ${data.notes || '—'}`,
+  ].join('\n')
+}
+
+function mailtoHref(data: Record<string, string>): string {
+  const subject = encodeURIComponent(`Quote request — ${data.origin} to ${data.destination}`)
+  return `mailto:${site.contactEmail}?subject=${subject}&body=${encodeURIComponent(draftBody(data))}`
+}
 
 export default function QuoteForm() {
   const [state, setState] = useState<FormState>('idle')
   const [error, setError] = useState('')
+  const [fallbackData, setFallbackData] = useState<Record<string, string> | null>(null)
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -27,6 +56,10 @@ export default function QuoteForm() {
 
     if (!data.name?.trim() || !data.email?.trim() || !data.origin?.trim() || !data.destination?.trim()) {
       setError('Please fill in your name, email, origin, and destination.')
+      return
+    }
+    if (!EMAIL_RE.test(data.email.trim())) {
+      setError('Please enter a valid email address (e.g. you@company.com).')
       return
     }
 
@@ -41,42 +74,23 @@ export default function QuoteForm() {
         setState('sent')
         return
       }
-      if (res.status === 503) {
-        // Email sending isn't configured yet — fall back to the user's mail client.
-        openMailFallback(data)
-        setState('sent')
+      if (res.status === 422) {
+        setError('Please double-check your name, email, origin, and destination, then try again.')
+        setState('idle')
         return
       }
-      const body = await res.json().catch(() => null)
-      setError(body?.error === 'invalid' ? 'Please double-check the highlighted fields and try again.' : 'Something went wrong sending your request. Please try again, or email us directly.')
-      setState('idle')
+      // 503 (email relay not configured), 502 (relay down), 429, or anything
+      // else server-side: hand the visitor a mail draft instead of losing the lead.
+      enterFallback(data)
     } catch {
-      openMailFallback(data)
-      setState('sent')
+      enterFallback(data)
     }
   }
 
-  function openMailFallback(data: Record<string, string>) {
-    const subject = encodeURIComponent(`Quote request — ${data.origin} to ${data.destination}`)
-    const body = encodeURIComponent(
-      [
-        `Name: ${data.name}`,
-        `Company: ${data.company || '—'}`,
-        `Email: ${data.email}`,
-        `Phone: ${data.phone || '—'}`,
-        '',
-        `Origin: ${data.origin}`,
-        `Destination: ${data.destination}`,
-        `Pickup date: ${data.pickup_date || '—'}`,
-        `Equipment: ${data.equipment || '—'}`,
-        `Temp set point: ${data.temp || '—'}`,
-        `Commodity: ${data.commodity || '—'}`,
-        `Weight: ${data.weight || '—'}`,
-        '',
-        `Notes: ${data.notes || '—'}`,
-      ].join('\n'),
-    )
-    window.location.href = `mailto:${site.contactEmail}?subject=${subject}&body=${body}`
+  function enterFallback(data: Record<string, string>) {
+    setFallbackData(data)
+    setState('fallback')
+    window.location.href = mailtoHref(data)
   }
 
   if (state === 'sent') {
@@ -96,6 +110,30 @@ export default function QuoteForm() {
             </a>
             .
           </p>
+        </div>
+      </div>
+    )
+  }
+
+  if (state === 'fallback' && fallbackData) {
+    return (
+      <div className="cl-quote-shell">
+        <div className="cl-form-success">
+          <span style={{ color: 'var(--ice-500)' }}>
+            <IconShieldCheck size={44} />
+          </span>
+          <h3>One more step — send the email</h3>
+          <p>
+            We opened a draft in your email app with your load details.
+            <br />
+            <strong>Press Send in your mail app to submit it.</strong>
+          </p>
+          <p style={{ marginTop: 14 }}>
+            Nothing opened? <a href={mailtoHref(fallbackData)} style={{ color: 'var(--ice-500)' }}>Open the draft again</a>{' '}
+            or email <a href={`mailto:${site.contactEmail}`} style={{ color: 'var(--ice-500)' }}>{site.contactEmail}</a>{' '}
+            with the details below.
+          </p>
+          <pre className="cl-fallback-details">{draftBody(fallbackData)}</pre>
         </div>
       </div>
     )

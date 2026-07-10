@@ -138,6 +138,7 @@ export default function Home() {
 
       {/* ─── Capability band ─── */}
       <section className="cl-band">
+        <h2 className="sr-only">Why Cryolane</h2>
         <div className="cl-band-grid">
           <div className="cl-feature">
             <div className="cl-feature-icon"><IconThermometer /></div>
@@ -282,14 +283,14 @@ export default function Home() {
           </div>
           <div className="cl-footer-cols">
             <div className="cl-footer-col">
-              <h4>Company</h4>
+              <h3>Company</h3>
               <a href="#services">Services</a>
               <a href="#standard">The Cryolane Standard</a>
               <a href="#shippers">For Shippers</a>
               <a href="#carriers">For Carriers</a>
             </div>
             <div className="cl-footer-col">
-              <h4>Contact</h4>
+              <h3>Contact</h3>
               <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
               {site.phone && <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a>}
               <a href="#quote">Request a quote</a>
@@ -299,9 +300,9 @@ export default function Home() {
         <div className="cl-footer-base">
           <span>© {new Date().getFullYear()} {site.name}. All rights reserved.</span>
           <span>
-            {site.mcNumber && `MC ${site.mcNumber} · `}
-            {site.usdotNumber && `USDOT ${site.usdotNumber} · `}
-            Licensed &amp; bonded property broker
+            {site.mcNumber
+              ? `MC ${site.mcNumber} · ${site.usdotNumber ? `USDOT ${site.usdotNumber} · ` : ''}Licensed & bonded property broker`
+              : 'FMCSA broker authority registration in process'}
           </span>
         </div>
       </footer>
