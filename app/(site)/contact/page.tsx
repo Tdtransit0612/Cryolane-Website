@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { IconHeadset, IconTruck, IconBox } from '../../_ui/icons'
+import { SpecBar } from '../../_ui/SpecBar'
 import { site } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -24,6 +25,14 @@ export default function ContactPage() {
           </p>
         </div>
       </div>
+      <SpecBar
+        specs={[
+          { k: 'Quotes', v: 'Same-day' },
+          { k: 'Carrier setup', v: 'W-9 + COI + authority' },
+          { k: 'Support', v: 'Portal login' },
+          { k: 'After hours', v: 'Covered', live: true },
+        ]}
+      />
 
       <section className="cl-section">
         <div className="cl-section-inner">

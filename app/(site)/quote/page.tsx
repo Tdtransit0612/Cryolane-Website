@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import QuoteForm from '../../_ui/QuoteForm'
+import { SpecBar } from '../../_ui/SpecBar'
 
 export const metadata: Metadata = {
   title: 'Get a Quote | Cryolane',
@@ -20,6 +21,14 @@ export default function QuotePage() {
           </p>
         </div>
       </div>
+      <SpecBar
+        specs={[
+          { k: 'Need', v: 'Lane · Product · Temp' },
+          { k: 'Response', v: 'Same-day' },
+          { k: 'Read by', v: 'A real person' },
+          { k: 'No', v: 'Rate-blast lists' },
+        ]}
+      />
       <section className="cl-section">
         <div className="cl-section-inner">
           <QuoteForm />

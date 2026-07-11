@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { IconThermometer, IconShieldCheck, IconHeadset } from '../../_ui/icons'
+import { IconThermometer, IconShieldCheck, IconHeadset, IconRadar } from '../../_ui/icons'
+import { SpecBar } from '../../_ui/SpecBar'
 
 export const metadata: Metadata = {
   title: 'About | Cryolane',
@@ -22,6 +23,14 @@ export default function AboutPage() {
           </p>
         </div>
       </div>
+      <SpecBar
+        specs={[
+          { k: 'Focus', v: 'Reefer-only' },
+          { k: 'Model', v: 'Broker, asset-light' },
+          { k: 'Systems', v: 'Own TMS + portals' },
+          { k: 'Coverage', v: '48 states' },
+        ]}
+      />
 
       <section className="cl-section">
         <div className="cl-section-inner">
@@ -37,7 +46,7 @@ export default function AboutPage() {
               write is about protecting product that can&apos;t survive a mistake.
             </p>
           </div>
-          <div className="cl-band-grid" style={{ padding: 0 }}>
+          <div className="cl-band-grid">
             <div className="cl-feature">
               <div className="cl-feature-icon"><IconThermometer /></div>
               <h3>Discipline over promises</h3>
@@ -59,15 +68,30 @@ export default function AboutPage() {
 
       <section className="cl-section cl-section-alt">
         <div className="cl-section-inner">
-          <div className="cl-section-head cl-center">
+          <div className="cl-section-head">
             <p className="cl-kicker">The tools</p>
             <h2 className="cl-h2">Modern systems, human judgment.</h2>
             <p className="cl-lede">
-              Cryolane runs on its own transportation management system — live tracking
-              links on every load, carrier compliance monitoring with automatic expiry
-              alerts, and shipper &amp; carrier portals that show you your freight without
-              a phone call. The technology handles the vigilance; people make the calls.
+              Cryolane runs on its own transportation management system. The technology
+              handles the vigilance; people make the calls.
             </p>
+          </div>
+          <div className="cl-band-grid">
+            <div className="cl-feature">
+              <div className="cl-feature-icon"><IconRadar /></div>
+              <h3>Live tracking</h3>
+              <p>A tracking link on every load — share it with your receiver instead of fielding check calls.</p>
+            </div>
+            <div className="cl-feature">
+              <div className="cl-feature-icon"><IconShieldCheck /></div>
+              <h3>Compliance monitoring</h3>
+              <p>Carrier authority and insurance watched automatically, with expiry alerts before anything lapses.</p>
+            </div>
+            <div className="cl-feature">
+              <div className="cl-feature-icon"><IconHeadset /></div>
+              <h3>Shipper &amp; carrier portals</h3>
+              <p>Your shipments, invoices, and settlements on one screen — no phone call required.</p>
+            </div>
           </div>
         </div>
       </section>

@@ -13,42 +13,49 @@ import {
   IconLayers,
 } from '../_ui/icons'
 import QuoteForm from '../_ui/QuoteForm'
+import { SpecBar } from '../_ui/SpecBar'
 
 const SERVICES = [
   {
     icon: <IconLeaf />,
     title: 'Fresh Produce',
     body: 'Field-to-DC programs with pulp-temp awareness, fast transit, and carriers who understand PACA-sensitive freight.',
+    label: 'SET',
     temp: '34°F – 55°F',
   },
   {
     icon: <IconSnow />,
     title: 'Frozen & Deep Frozen',
     body: 'Ice cream, seafood, frozen bakery, and everything that lives below zero — continuous-run units, verified pre-cool.',
+    label: 'SET',
     temp: '−20°F – 0°F',
   },
   {
     icon: <IconMilk />,
     title: 'Dairy & Protein',
     body: 'Milk, cheese, beef, poultry, and pork on sanitary, food-grade trailers with unbroken cold from dock to dock.',
+    label: 'SET',
     temp: '28°F – 38°F',
   },
   {
     icon: <IconBox />,
     title: 'Food & Beverage',
     body: 'Temp-protected grocery and beverage, including keep-from-freezing programs through winter lanes.',
+    label: 'SET',
     temp: '36°F – 70°F',
   },
   {
     icon: <IconFlask />,
     title: 'Specialty & High-Value',
     body: 'Floral, chocolate, nutraceuticals, and other unforgiving commodities that punish sloppy temperature control.',
+    label: 'SPEC',
     temp: 'Product-specific',
   },
   {
     icon: <IconLayers />,
     title: 'Multi-Temp & Partials',
     body: 'Multi-compartment loads and consolidated reefer partials when a full trailer is more than you need.',
+    label: 'ZONES',
     temp: 'Dual / tri-zone',
   },
 ]
@@ -110,13 +117,16 @@ export default function Home() {
             <Link href="/quote" className="cl-btn cl-btn-primary">Get a Quote</Link>
             <Link href="/carriers" className="cl-btn cl-btn-ghost">Join the Carrier Network</Link>
           </div>
-          <div className="cl-chip-row">
-            <span className="cl-chip"><IconSnow size={15} /> Reefer-first network</span>
-            <span className="cl-chip"><IconRadar size={15} /> 24/7 load visibility</span>
-            <span className="cl-chip"><IconThermometer size={15} /> −20°F to 70°F protected</span>
-          </div>
         </div>
       </header>
+      <SpecBar
+        specs={[
+          { k: 'Network', v: 'Reefer-first' },
+          { k: 'Range', v: '−20°F → 70°F' },
+          { k: 'Visibility', v: '24/7 tracking', live: true },
+          { k: 'Coverage', v: '48 states' },
+        ]}
+      />
 
       {/* ─── Capability band ─── */}
       <section className="cl-band">
@@ -162,7 +172,7 @@ export default function Home() {
                 <div className="cl-card-icon">{s.icon}</div>
                 <h3>{s.title}</h3>
                 <p>{s.body}</p>
-                <span className="cl-card-temp">{s.temp}</span>
+                <span className="cl-card-temp" data-label={s.label}>{s.temp}</span>
               </div>
             ))}
           </div>
@@ -175,7 +185,7 @@ export default function Home() {
       {/* ─── The Cryolane Standard ─── */}
       <section className="cl-section cl-section-alt" id="standard">
         <div className="cl-section-inner">
-          <div className="cl-section-head cl-center">
+          <div className="cl-section-head">
             <p className="cl-kicker">The Cryolane Standard</p>
             <h2 className="cl-h2">Five checkpoints. Zero surprises.</h2>
             <p className="cl-lede">

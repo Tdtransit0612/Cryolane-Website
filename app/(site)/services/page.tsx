@@ -11,6 +11,15 @@ import {
   IconRadar,
   IconTruck,
 } from '../../_ui/icons'
+import { SpecBar } from '../../_ui/SpecBar'
+
+const TEMP_BANDS = [
+  { c: '#2E7BFF', label: 'Deep frozen −20°F to 0°F' },
+  { c: '#7FC8FF', label: 'Frozen 0°F to 28°F' },
+  { c: '#AECBE8', label: 'Fresh / chilled 28°F to 40°F' },
+  { c: '#C9DCEC', label: 'Cool 40°F to 55°F' },
+  { c: '#E4EEF7', label: 'Protect-from-freeze / ambient 55°F to 70°F' },
+]
 
 export const metadata: Metadata = {
   title: 'Services | Cryolane',
@@ -23,6 +32,7 @@ const SERVICES = [
     icon: <IconLeaf />,
     title: 'Fresh Produce',
     temp: '34°F – 55°F',
+    label: 'SET',
     body: 'Field-to-DC and DC-to-retail programs where hours matter. We spec carriers who understand pulp temps, airflow, and produce seasonality — and we build schedules around protect-from-freeze windows and appointment realities, not wishful transit math.',
     points: ['Pulp-temp awareness at pickup', 'Season-ready capacity planning', 'PACA-conscious handling'],
   },
@@ -30,6 +40,7 @@ const SERVICES = [
     icon: <IconSnow />,
     title: 'Frozen & Deep Frozen',
     temp: '−20°F – 0°F',
+    label: 'SET',
     body: 'Ice cream, seafood, frozen bakery, and prepared foods have no tolerance for cycling units or soft pre-cools. Frozen loads run on continuous mode with the pre-cool verified before the first pallet moves.',
     points: ['Continuous-run units required', 'Pre-cool verified before loading', 'Reefer download on request'],
   },
@@ -37,6 +48,7 @@ const SERVICES = [
     icon: <IconMilk />,
     title: 'Dairy & Protein',
     temp: '28°F – 38°F',
+    label: 'SET',
     body: 'Milk, cheese, beef, poultry, and pork demand sanitary, food-grade trailers and an unbroken cold chain. We hold carriers to washout and prior-load standards and keep the set point documented dock to dock.',
     points: ['Food-grade, washout-verified trailers', 'Prior-load checks', 'Tight delivery-appointment discipline'],
   },
@@ -44,6 +56,7 @@ const SERVICES = [
     icon: <IconBox />,
     title: 'Food & Beverage',
     temp: '36°F – 70°F',
+    label: 'SET',
     body: 'Beverage, grocery, chocolate, and shelf-stable product that still needs protection — from summer heat or winter freeze. Keep-from-freezing programs through northern lanes are a specialty.',
     points: ['Protect-from-freeze programs', 'Heat-protected summer moves', 'Retail routing-guide compliance'],
   },
@@ -51,6 +64,7 @@ const SERVICES = [
     icon: <IconFlask />,
     title: 'Specialty & High-Value',
     temp: 'Product-specific',
+    label: 'SPEC',
     body: 'Floral, nutraceuticals, cosmetics, and other unforgiving commodities that punish sloppy temperature control. We write the product spec into the rate con and match equipment accordingly.',
     points: ['Product spec on the rate con', 'High-value carrier vetting', 'Discreet, direct service'],
   },
@@ -58,6 +72,7 @@ const SERVICES = [
     icon: <IconLayers />,
     title: 'Multi-Temp & Partials',
     temp: 'Dual / tri-zone',
+    label: 'ZONES',
     body: 'Multi-compartment trailers for mixed-temp loads, and consolidated reefer partials when a full trailer is more than you need. Compartment set points spec’d per zone, in writing.',
     points: ['Dual and tri-zone equipment', 'Consolidated reefer LTL/partials', 'Per-zone set points documented'],
   },
@@ -76,10 +91,48 @@ export default function ServicesPage() {
           </p>
         </div>
       </div>
+      <SpecBar
+        specs={[
+          { k: 'Range', v: '−20°F → 70°F' },
+          { k: 'Equipment', v: "Reefer 53' · Multi-temp" },
+          { k: 'Modes', v: 'Continuous · Cycle' },
+          { k: 'Coverage', v: '48 states' },
+        ]}
+      />
 
       <section className="cl-section">
         <div className="cl-section-inner">
-          <h2 className="sr-only">Commodities we handle</h2>
+          <div className="cl-section-head">
+            <p className="cl-kicker">Operating range</p>
+            <h2 className="cl-h2">One band off spec is a rejected load.</h2>
+            <p className="cl-lede">
+              We move product across the whole cold-chain spectrum — each with its own
+              equipment, set point, and run-mode requirements.
+            </p>
+          </div>
+          <div className="cl-tempscale">
+            <div className="cl-tempscale-track" />
+            <div className="cl-tempscale-marks">
+              <span>−20°F</span><span>0°F</span><span>32°F</span><span>40°F</span><span>55°F</span><span>70°F</span>
+            </div>
+            <div className="cl-tempscale-legend">
+              {TEMP_BANDS.map((b) => (
+                <div key={b.label}>
+                  <span className="cl-swatch" style={{ background: b.c }} />
+                  {b.label}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="cl-section cl-section-alt">
+        <div className="cl-section-inner">
+          <div className="cl-section-head">
+            <p className="cl-kicker">What we move</p>
+            <h2 className="cl-h2">Commodities, by the numbers.</h2>
+          </div>
           <div className="cl-cards">
             {SERVICES.map((s) => (
               <div className="cl-card" key={s.title}>
@@ -89,16 +142,16 @@ export default function ServicesPage() {
                 <ul className="cl-card-points">
                   {s.points.map((p) => <li key={p}>{p}</li>)}
                 </ul>
-                <span className="cl-card-temp">{s.temp}</span>
+                <span className="cl-card-temp" data-label={s.label}>{s.temp}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="cl-section cl-section-alt">
+      <section className="cl-section">
         <div className="cl-section-inner">
-          <div className="cl-section-head cl-center">
+          <div className="cl-section-head">
             <p className="cl-kicker">Equipment & Modes</p>
             <h2 className="cl-h2">Continuous vs. cycle — it&apos;s on the rate con.</h2>
             <p className="cl-lede">
@@ -106,7 +159,7 @@ export default function ServicesPage() {
               product needed continuous air. We don&apos;t leave it to a phone call.
             </p>
           </div>
-          <div className="cl-band-grid" style={{ padding: 0 }}>
+          <div className="cl-band-grid">
             <div className="cl-feature">
               <div className="cl-feature-icon"><IconTruck /></div>
               <h3>Reefer FTL</h3>

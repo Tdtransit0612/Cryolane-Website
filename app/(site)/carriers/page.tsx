@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { IconShieldCheck, IconSnow, IconHeadset, IconBox } from '../../_ui/icons'
+import { SpecBar } from '../../_ui/SpecBar'
 import { site } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -33,6 +34,14 @@ export default function CarriersPage() {
           </p>
         </div>
       </div>
+      <SpecBar
+        specs={[
+          { k: 'Network', v: 'Reefer-only' },
+          { k: 'Detention', v: 'Paid, no games' },
+          { k: 'Settlements', v: 'Portal-visible' },
+          { k: 'Setup', v: 'W-9 + COI + authority' },
+        ]}
+      />
 
       <section className="cl-band">
         <h2 className="sr-only">Why carriers run with Cryolane</h2>

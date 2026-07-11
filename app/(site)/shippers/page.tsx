@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { IconShieldCheck, IconRadar, IconThermometer, IconHeadset } from '../../_ui/icons'
+import { SpecBar } from '../../_ui/SpecBar'
 import QuoteForm from '../../_ui/QuoteForm'
 
 export const metadata: Metadata = {
@@ -45,6 +46,14 @@ export default function ShippersPage() {
           </p>
         </div>
       </div>
+      <SpecBar
+        specs={[
+          { k: 'Set point', v: 'On every rate con' },
+          { k: 'Visibility', v: 'Live tracking', live: true },
+          { k: 'Portal', v: 'Shipments + invoices' },
+          { k: 'Contact', v: 'One dispatcher' },
+        ]}
+      />
 
       <section className="cl-band">
         <h2 className="sr-only">What you get</h2>
@@ -74,7 +83,7 @@ export default function ShippersPage() {
 
       <section className="cl-section" id="how-it-works">
         <div className="cl-section-inner">
-          <div className="cl-section-head cl-center">
+          <div className="cl-section-head">
             <p className="cl-kicker">How it works</p>
             <h2 className="cl-h2">From quote to POD, without the chase.</h2>
           </div>
