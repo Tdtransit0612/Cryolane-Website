@@ -1,4 +1,5 @@
-import { CryolaneMark } from './_ui/Logo'
+import Link from 'next/link'
+import { CryolaneMark } from '../_ui/Logo'
 import {
   IconThermometer,
   IconShieldCheck,
@@ -10,10 +11,8 @@ import {
   IconBox,
   IconFlask,
   IconLayers,
-  IconCheck,
-} from './_ui/icons'
-import QuoteForm from './QuoteForm'
-import { site } from '@/lib/site'
+} from '../_ui/icons'
+import QuoteForm from '../_ui/QuoteForm'
 
 const SERVICES = [
   {
@@ -84,24 +83,7 @@ const STEPS = [
 
 export default function Home() {
   return (
-    <div className="cl-wrap">
-      {/* ─── Nav ─── */}
-      <nav className="cl-nav">
-        <div className="cl-nav-inner">
-          <a href="#top" className="cl-lockup">
-            <CryolaneMark size={30} id="clg-nav" />
-            <span className="cl-lockup-name">CRYOLANE</span>
-          </a>
-          <div className="cl-nav-links">
-            <a href="#services">Services</a>
-            <a href="#standard">The Standard</a>
-            <a href="#shippers">Shippers</a>
-            <a href="#carriers">Carriers</a>
-            <a href="#quote" className="cl-btn cl-btn-primary cl-btn-sm">Get a Quote</a>
-          </div>
-        </div>
-      </nav>
-
+    <main>
       {/* ─── Hero ─── */}
       <header className="cl-hero" id="top">
         <div className="cl-hero-fx" aria-hidden="true">
@@ -125,8 +107,8 @@ export default function Home() {
             from pre-cool to proof of delivery.
           </p>
           <div className="cl-cta-row">
-            <a href="#quote" className="cl-btn cl-btn-primary">Get a Quote</a>
-            <a href="#carriers" className="cl-btn cl-btn-ghost">Join the Carrier Network</a>
+            <Link href="/quote" className="cl-btn cl-btn-primary">Get a Quote</Link>
+            <Link href="/carriers" className="cl-btn cl-btn-ghost">Join the Carrier Network</Link>
           </div>
           <div className="cl-chip-row">
             <span className="cl-chip"><IconSnow size={15} /> Reefer-first network</span>
@@ -184,6 +166,9 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <div className="cl-section-cta">
+            <Link href="/services" className="cl-btn cl-btn-ghost">Explore our services</Link>
+          </div>
         </div>
       </section>
 
@@ -220,34 +205,37 @@ export default function Home() {
               <p>
                 Whether it&apos;s a weekly produce program or a one-off frozen truckload,
                 you get a spec&apos;d load, a vetted carrier, and a broker who stays on it.
+                Track every shipment and invoice in the shipper portal.
               </p>
               <ul>
-                <li><IconCheck /> Rates built for your lanes — spot or contract</li>
-                <li><IconCheck /> Set point, run mode, and specs on every rate con</li>
-                <li><IconCheck /> Tracking updates without having to ask</li>
-                <li><IconCheck /> Straight answers when something changes</li>
+                <li><IconShieldCheck size={16} /> Rates built for your lanes — spot or contract</li>
+                <li><IconShieldCheck size={16} /> Set point, run mode, and specs on every rate con</li>
+                <li><IconShieldCheck size={16} /> Live tracking + a portal with your full history</li>
+                <li><IconShieldCheck size={16} /> Straight answers when something changes</li>
               </ul>
-              <a href="#quote" className="cl-btn cl-btn-primary">Request a Quote</a>
+              <div className="cl-panel-ctas">
+                <Link href="/quote" className="cl-btn cl-btn-primary">Request a Quote</Link>
+                <Link href="/shippers" className="cl-btn cl-btn-ghost">Learn more</Link>
+              </div>
             </div>
             <div className="cl-panel" id="carriers">
               <p className="cl-kicker">For Carriers</p>
               <h3>Run reefer? Run with us.</h3>
               <p>
                 We keep our carrier network tight on purpose. Clear set points, accurate
-                load info, and a broker who respects your clock and your equipment.
+                load info, and a portal where you see your loads, settlements, and
+                compliance status — no phone tag.
               </p>
               <ul>
-                <li><IconCheck /> Complete load specs before you commit</li>
-                <li><IconCheck /> No games on detention and layover</li>
-                <li><IconCheck /> Consistent reefer freight, not one-and-done loads</li>
-                <li><IconCheck /> Fast setup — send your packet, get rolling</li>
+                <li><IconShieldCheck size={16} /> Complete load specs before you commit</li>
+                <li><IconShieldCheck size={16} /> No games on detention and layover</li>
+                <li><IconShieldCheck size={16} /> Settlement visibility in the carrier portal</li>
+                <li><IconShieldCheck size={16} /> Fast setup — send your packet, get rolling</li>
               </ul>
-              <a
-                href={`mailto:${site.carrierEmail}?subject=${encodeURIComponent('Carrier packet — Cryolane network')}&body=${encodeURIComponent('Please attach your W-9, certificate of insurance (with reefer breakdown coverage), and authority letter.\n\nMC #:\nDOT #:\nTrucks / reefer trailers:\nHome base / preferred lanes:')}`}
-                className="cl-btn cl-btn-ghost"
-              >
-                Join the Network
-              </a>
+              <div className="cl-panel-ctas">
+                <Link href="/carriers" className="cl-btn cl-btn-ghost">Join the Network</Link>
+                <Link href="/portal/login" className="cl-btn cl-btn-ghost">Carrier Portal</Link>
+              </div>
             </div>
           </div>
         </div>
@@ -267,45 +255,6 @@ export default function Home() {
           <QuoteForm />
         </div>
       </section>
-
-      {/* ─── Footer ─── */}
-      <footer className="cl-footer">
-        <div className="cl-footer-inner">
-          <div className="cl-footer-brand">
-            <a href="#top" className="cl-lockup">
-              <CryolaneMark size={28} id="clg-foot" />
-              <span className="cl-lockup-name" style={{ fontSize: 16 }}>CRYOLANE</span>
-            </a>
-            <p className="cl-footer-tagline">
-              {site.tagline} Temperature-controlled freight brokerage for shippers who
-              can&apos;t afford a warm trailer.
-            </p>
-          </div>
-          <div className="cl-footer-cols">
-            <div className="cl-footer-col">
-              <h3>Company</h3>
-              <a href="#services">Services</a>
-              <a href="#standard">The Cryolane Standard</a>
-              <a href="#shippers">For Shippers</a>
-              <a href="#carriers">For Carriers</a>
-            </div>
-            <div className="cl-footer-col">
-              <h3>Contact</h3>
-              <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
-              {site.phone && <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`}>{site.phone}</a>}
-              <a href="#quote">Request a quote</a>
-            </div>
-          </div>
-        </div>
-        <div className="cl-footer-base">
-          <span>© {new Date().getFullYear()} {site.name}. All rights reserved.</span>
-          <span>
-            {site.mcNumber
-              ? `MC ${site.mcNumber} · ${site.usdotNumber ? `USDOT ${site.usdotNumber} · ` : ''}Licensed & bonded property broker`
-              : 'FMCSA broker authority registration in process'}
-          </span>
-        </div>
-      </footer>
-    </div>
+    </main>
   )
 }

@@ -5,6 +5,8 @@
 export const site = {
   name: 'Cryolane',
   tagline: 'Cold Chain. Controlled.',
+  // Canonical site origin (no trailing slash) — used for metadata, sitemap, robots.
+  url: 'https://cryolane.com',
   // TODO: switch to a Cryolane inbox (e.g. quotes@cryolane.com) once the
   // domain mailbox exists. Until then, quote requests land here.
   contactEmail: 'adamg@tdtransit.com',

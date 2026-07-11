@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { site } from '@/lib/site'
-import { IconShieldCheck } from './_ui/icons'
+import { IconShieldCheck } from './icons'
 
 const EQUIPMENT_OPTIONS = [
   'Reefer — Full Truckload',
