@@ -7,6 +7,7 @@ import {
   getCarrierSettlements,
 } from '@/lib/portal/data'
 import { NotProvisioned, EmptyState, StatusBadge, fmtMoney, fmtDate } from '../../_ui/bits'
+import QuickPayToggle from './QuickPayToggle'
 
 export const dynamic = 'force-dynamic'
 
@@ -127,6 +128,16 @@ export default async function CarrierPortalPage() {
               </tbody>
             </table>
           </div>
+        )}
+      </section>
+
+      <section className="clp-section">
+        <h2>Payment method</h2>
+        <p style={{ marginTop: 0 }}>Choose how Cryolane pays you. You can change this anytime — it applies to settlements built after the change.</p>
+        {account.ready && account.data ? (
+          <QuickPayToggle initial={account.data.quick_pay_opt_in ?? false} />
+        ) : (
+          <EmptyState label="Unavailable right now." />
         )}
       </section>
 

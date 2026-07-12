@@ -30,6 +30,7 @@ export type CarrierAccount = {
   auto_liability_amount: number | null
   w9_on_file: boolean
   payment_terms: string | null
+  quick_pay_opt_in?: boolean | null
 }
 
 export type CarrierLoad = {
