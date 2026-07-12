@@ -82,7 +82,8 @@ export default function CarriersPage() {
                 ))}
               </ul>
               <div className="cl-panel-ctas">
-                <a href={packetMailto} className="cl-btn cl-btn-primary">Send Your Packet</a>
+                <Link href="/carriers/apply" className="cl-btn cl-btn-primary">Apply to the Network</Link>
+                <a href={packetMailto} className="cl-btn cl-btn-ghost">Email Your Packet</a>
               </div>
             </div>
             <div className="cl-panel">
@@ -108,8 +109,8 @@ export default function CarriersPage() {
 
       <section className="cl-cta-band">
         <h2>Get set up today.</h2>
-        <p>W-9, COI with reefer breakdown, and your authority letter — that&apos;s the whole packet.</p>
-        <a href={packetMailto} className="cl-btn cl-btn-primary">Join the Network</a>
+        <p>Fill out the application and we&apos;ll verify your authority and insurance — W-9, COI with reefer breakdown, and your authority letter are the whole packet.</p>
+        <Link href="/carriers/apply" className="cl-btn cl-btn-primary">Apply to the Network</Link>
       </section>
     </main>
   )
